@@ -1,0 +1,235 @@
+﻿@model Assignment_2.Models.ViewModels.ProductFilterViewModel
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background color for better contrast */
+        font-family: Arial, sans-serif;
+    }
+
+    .content-section {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .product-list {
+        margin: 0 auto;
+        max-width: 900px;
+        padding: 20px;
+        background: white; /* White background for product list */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    }
+
+    .listing-box {
+        margin-bottom: 20px;
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid #e0e0e0; /* Light border for cards */
+        border-radius: 8px; /* Rounded corners for cards */
+        transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition */
+    }
+
+        .listing-box:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+        }
+
+    .info-container {
+        text-align: left;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        height: 100%;
+        margin-bottom: 30px;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #343a40; /* Darker text for better readability */
+    }
+
+    .product-details-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+        font-size: 1.1rem;
+    }
+
+        .product-details-list li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: left;
+        }
+
+        .product-details-list strong {
+            font-weight: bold;
+        }
+
+    .search-bar {
+        margin-bottom: 20px;
+        background: #e9ecef; /* Background for the search bar */
+        padding: 20px;
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Bootstrap primary color */
+        border: none; /* Remove border */
+        transition: background-color 0.3s; /* Smooth transition */
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+    .modal-content {
+        border-radius: 8px; /* Rounded corners for modal */
+    }
+
+    .product-image {
+        border-radius: 8px; /* Rounded corners for product images in modal */
+    }
+</style>
+
+<h2 class="text-center">Listings</h2>
+
+<div class="container product-list search-bar">
+    <form method="get" action="@Url.Action("SearchBuy", "Home")" class="form-inline row g-3" id="searchForm">
+        <!-- Search Term -->
+        <div class="col-md-3">
+            <input type="text" name="searchTerm" class="form-control" placeholder="Find a Bike" />
+        </div>
+
+        <!-- Filter by Brand -->
+        <div class="col-md-2 form-group">
+            <label for="BrandId" class="control-label">Select Brand</label>
+            @Html.DropDownListFor(model => model.BrandId, Model.Brands, "All Brands", new { @class = "form-control", onchange = "this.form.submit()" })
+        </div>
+
+        <!-- Filter by Category -->
+        <div class="col-md-2 form-group">
+            <label for="CategoryId" class="control-label">Select Category</label>
+            @Html.DropDownListFor(model => model.CategoryId, Model.Categories, "All Categories", new { @class = "form-control", onchange = "this.form.submit()" })
+        </div>
+
+        <!-- Filter by Price -->
+        <div class="col-md-2 form-group">
+            <label for="Price" class="control-label">Max Price</label>
+            <input type="text" name="price" class="form-control" placeholder="Max Price" />
+        </div>
+
+        <!-- Search Button -->
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+
+
+<!-- Product Listing Section -->
+<div class="container product-list">
+    @if (Model.Products != null && Model.Products.Any())
+    {
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-md-6">
+                    <div class="card listing-box border rounded p-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>Bike Name:</strong> @product.ProductName</h5>
+                            <p class="card-text"><strong>List Price:</strong> @product.FormattedPrice</p>
+
+                            <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#productModal"
+                                    data-productid="@product.ProductId"
+                                    data-productname="@product.ProductName"
+                                    data-productprice="@product.FormattedPrice"
+                                    data-productbrand="@product.BrandName"
+                                    data-productcategory="@product.CategoryName"
+                                    data-productimage="@product.Base64Image">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-center">No products found/are listed at the moment.</p>
+    }
+</div>
+
+<!-- Details Modal-->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img id="modalProductImage" class="product-image" src="" alt="Product Image" style="width: 80%; height: auto;" />
+                </div>
+                <ul class="product-details-list">
+                    <li><strong>Product Name: </strong> <span id="modalProductName"></span></li>
+                    <li><strong>List Price: </strong> <span id="modalProductPrice"></span></li>
+                    <li><strong>Brand: </strong> <span id="modalProductBrand"></span></li>
+                    <li><strong>Category: </strong> <span id="modalProductCategory"></span></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="@Url.Action("AddToOrder", "Home")">
+                    <input type="hidden" name="productId" id="hiddenProductId" />
+                    <button type="submit" class="btn btn-primary">Add to Order</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+@section scripts {
+    <script>
+        // Populate modal with clicked product details
+        var productModal = document.getElementById('productModal');
+        productModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var productName = button.getAttribute('data-productname');
+            var productPrice = button.getAttribute('data-productprice');
+            var productBrand = button.getAttribute('data-productbrand');
+            var productCategory = button.getAttribute('data-productcategory');
+            var productImage = button.getAttribute('data-productimage');
+            var productId = button.getAttribute('data-productid'); // Moved inside the modal listener
+
+            // Update the modal's content
+            var modalProductName = productModal.querySelector('#modalProductName');
+            var modalProductPrice = productModal.querySelector('#modalProductPrice');
+            var modalProductBrand = productModal.querySelector('#modalProductBrand');
+            var modalProductCategory = productModal.querySelector('#modalProductCategory');
+            var modalProductImage = productModal.querySelector('#modalProductImage');
+            var hiddenProductId = productModal.querySelector('#hiddenProductId'); // Find the hidden input field
+
+            modalProductName.textContent = productName;
+            modalProductPrice.textContent = productPrice;
+            modalProductBrand.textContent = productBrand;
+            modalProductCategory.textContent = productCategory;
+            modalProductImage.src = 'data:image/png;base64,' + productImage; // Ensure image is set correctly
+            hiddenProductId.value = productId; // Set the hidden input field value
+        });
+    </script>
+}

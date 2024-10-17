@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "AddSeller";
+}
+
+<h2 class="text-center">Register as a Seller</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            @using (Html.BeginForm("DoAddSeller", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="first_name" class="control-label">First Name</label>
+                            @Html.TextBox("first_name", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter first name" })
+                            @Html.ValidationMessage("Name", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="last_name" class="control-label">Last Name</label>
+                            @Html.TextBox("last_name", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter last name" })
+                            @Html.ValidationMessage("Surname", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="email" class="control-label">Email</label>
+                            @Html.TextBox("email", null, new { @class = "form-control", @type = "email", @required = "required", @placeholder = "Enter email address" })
+                            @Html.ValidationMessage("email", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="phone" class="control-label">Phone</label>
+                            @Html.TextBox("phone", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter Phone Number" })
+                            @Html.ValidationMessage("phone", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="SPassword" class="control-label">Password</label>
+                            @Html.TextBox("S_Password", null, new { @class = "form-control", @type = "password", @required = "required", @placeholder = "Enter password" })
+                            @Html.ValidationMessage("S_Password", "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    @Html.ActionLink("Cancel", "Register", "Home", null, new { @class = "btn btn-secondary btn-lg" })
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>

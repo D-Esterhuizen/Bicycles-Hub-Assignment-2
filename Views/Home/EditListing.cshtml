@@ -1,0 +1,35 @@
+﻿@model Assignment_2.Models.ViewModels.ProductViewModel
+
+@using (Html.BeginForm("DoEditListing", "Home", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.ProductId)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProductName)
+        @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BrandId)
+        @Html.DropDownListFor(model => model.BrandId, Model.Brands, "Select Brand", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CategoryId)
+        @Html.DropDownListFor(model => model.CategoryId, Model.Categories, "Select Category", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ModelYear)
+        @Html.TextBoxFor(model => model.ModelYear, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ListPrice)
+        @Html.TextBoxFor(model => model.ListPrice, new { @class = "form-control" })
+    </div>
+
+    <input type="hidden" name="Base64Image" value="@Model.Base64Image" />
+
+    <input type="submit" value="Save Changes" class="btn btn-primary" />
+}

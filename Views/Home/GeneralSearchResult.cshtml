@@ -1,0 +1,72 @@
+﻿@model List<Assignment_2.Models.ViewModels.ProductViewModel>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #343a40;
+    }
+
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+    .card-body {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+        color: #343a40;
+    }
+
+    .card-text {
+        color: #6c757d;
+        margin-bottom: 15px;
+    }
+
+    .card img {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        height: 200px;
+        object-fit: cover;
+    }
+</style>
+
+<div class="container">
+    <h2>Search Results</h2>
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="data:image;base64,@product.Base64Image" class="card-img-top" alt="@product.ProductName" />
+                    <div class="card-body">
+                        <h5 class="card-title">@product.ProductName</h5>
+                        <p class="card-text">Brand: @product.BrandName</p>
+                        <p class="card-text">Price: @product.FormattedPrice</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

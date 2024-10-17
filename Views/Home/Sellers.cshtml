@@ -1,0 +1,44 @@
+﻿@model Assignment_2.Models.ViewModels.StaffViewModel
+@{
+    ViewBag.Title = "Sellers";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+@if (Model.Staffs.Any())
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var staff in Model.Staffs)
+                            {
+                                <tr>
+                                    <td>@staff.first_name</td>
+                                    <td>@staff.last_name</td>
+                                    <td>@staff.email</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+    <p>No records found.</p>
+}
+

@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "AddCustomer";
+}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2>Register as a Buyer</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            @using (Html.BeginForm("DoAddCustomer", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 ">
+                            <label for="first_name" class="control-label">First Name</label>
+                            @Html.TextBox("first_name", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter first name" })
+                            @Html.ValidationMessage("first_name", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6 ">
+                            <label for="last_name" class="control-label">Last Name</label>
+                            @Html.TextBox("last_name", null, new { @class = "form-control ", @type = "text", @required = "required", @placeholder = "Enter last name" })
+                            @Html.ValidationMessage("last_name", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="phone" class="control-label">Phone Number</label>
+                            @Html.TextBox("phone", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter phone number" })
+                            @Html.ValidationMessage("phone", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="street" class="control-label">Street</label>
+                            @Html.TextBox("street", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter street address" })
+                            @Html.ValidationMessage("street", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="city" class="control-label">City</label>
+                            @Html.TextBox("city", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter city" })
+                            @Html.ValidationMessage("city", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="state" class="control-label">State</label>
+                            @Html.TextBox("state", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter state" })
+                            @Html.ValidationMessage("state", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="zip_code" class="control-label">Zip Code</label>
+                            @Html.TextBox("zip_code", null, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter zip code" })
+                            @Html.ValidationMessage("zip_code", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="email" class="control-label">Email</label>
+                            @Html.TextBox("email", null, new { @class = "form-control", @type = "email", @required = "required", @placeholder = "Enter email address" })
+                            @Html.ValidationMessage("email", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="CPassword" class="control-label">Password</label>
+                            @Html.TextBox("CPassword", null, new { @class = "form-control", @type = "password", @required = "required", @placeholder = "Enter password" })
+                            @Html.ValidationMessage("CPassword", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6 justify-content-center">
+                            <label for="RegisteredAsSeller">Register as a seller</label>
+                            <!-- Hidden field so that "false" is passed even if checkbox is left clear -->
+                            <input type="hidden" name="RegisteredAsSeller" value="false" />
+                            <input type="checkbox" id="RegisteredAsSeller" name="RegisteredAsSeller" value="true" />
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group mb-3">
+                    <div class=" row">
+                        <div class="col-md-6 text-center">
+                            @Html.ActionLink("Cancel", "Register", "Home", null, new { @class = "btn btn-secondary btn-lg" })
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Add
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>}
+        </div>
+    </div>
+</div>

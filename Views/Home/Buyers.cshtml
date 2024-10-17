@@ -1,0 +1,95 @@
+﻿@model Assignment_2.ViewModels.BuyerViewModel
+@{
+    ViewBag.Title = "Buyers";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<h5 class=" d-flex justify-content-center">Filter Customers By:</h5>
+<div class=" d-flex justify-content-center mb-3">
+    
+    <div class="btn-group" role="group">
+        <!-- Button to sort by Order Date -->
+        @if (Assignment_2.Controllers.HomeController.SortOrderFilter == "order_date")
+        {
+            <button type="button" class="btn btn-secondary" disabled>Order Date (Current)</button>
+        }
+        else
+        {
+            @Html.ActionLink("Order Date", "SetSortOrder", new { sortOrder = "order_date" }, new { @class = "btn btn-primary" })
+        }
+
+        <!-- Button to sort by Store Name -->
+        @if (Assignment_2.Controllers.HomeController.SortOrderFilter == "store_name")
+        {
+            <button type="button" class="btn btn-secondary" disabled>Store Name (Current)</button>
+        }
+        else
+        {
+            @Html.ActionLink("Store Name", "SetSortOrder", new { sortOrder = "store_name" }, new { @class = "btn btn-primary" })
+        }
+    </div>
+</div>
+
+
+
+@if (Model.Buyers.Any())
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Order Date</th>
+                            <th>Store Name</th>
+                            <th>Sales Staff</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var buyer in Model.Buyers)
+                        {
+                            <tr>
+                                <td>@buyer.first_Name</td>
+                                <td>@buyer.last_Name</td>
+                                <td>@buyer.email</td>
+                                <td>@buyer.order_date.order_date.ToString("MM/dd/yyyy")</td>
+                                <td>@buyer.store_name.store_name</td>
+                                <td>@buyer.first_name.first_name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    //page chooser at the bottom
+    <ul class="pagination justify-content-center">
+        @if (Model.CurrentPage > 1)
+        {
+            <li class="page-item">
+                @Html.ActionLink("Previous", "Buyers", new { page = Model.CurrentPage - 1 }, new { @class = "page-link" })
+            </li>
+        }
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                @Html.ActionLink(i.ToString(), "Buyers", new { page = i }, new { @class = "page-link" })
+            </li>
+        }
+
+        @if (Model.CurrentPage < Model.TotalPages)
+        {
+            <li class="page-item">
+                @Html.ActionLink("Next", "Buyers", new { page = Model.CurrentPage + 1 }, new { @class = "page-link" })
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No records found.</p>
+}

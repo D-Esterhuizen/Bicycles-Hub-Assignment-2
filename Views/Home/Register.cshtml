@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Register";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background color for contrast */
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        margin-top: 30px;
+        color: #343a40; /* Darker text for the heading */
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    .btn-lg {
+        width: 100%; /* Make buttons full width */
+        padding: 20px; /* Increase padding for better click area */
+        font-size: 1.5rem; /* Increase font size for visibility */
+        margin: 10px 0; /* Add vertical margin for spacing */
+    }
+
+    .text-center {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Center align the buttons */
+    }
+
+    .row {
+        margin-bottom: 20px; /* Space between rows */
+    }
+</style>
+
+<h2 class="text-center">Register</h2>
+
+<div class="container text-center">
+    <div class="row">
+        <!-- Buyer Button -->
+        <div class="col-md-6 mb-3">
+            @Html.ActionLink("Buyer", "AddCustomer", "Home", null, new { @class = "btn btn-primary btn-lg" })
+        </div>
+        <!-- Seller Button -->
+        <div class="col-md-6 mb-3">
+            @Html.ActionLink("Seller", "AddSeller", "Home", null, new { @class = "btn btn-primary btn-lg" })
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-secondary btn-lg" })
+            </div>
+        </div>
+    </div>
+</div>

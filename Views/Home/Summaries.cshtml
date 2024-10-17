@@ -1,0 +1,152 @@
+﻿@model Assignment_2.Models.ViewModels.SummariesViewModel
+
+@{
+    ViewBag.Title = "Summaries";
+}
+
+<div class="container mt-4">
+    <div class="text-center">
+        <h2 class="display-4">@ViewBag.Title</h2>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.QueryType))
+    {
+        <div class="mt-4 p-3 rounded shadow-sm bg-light">
+            @if (Model.QueryType == "NewStocks")
+            {
+                <div class="alert alert-primary">
+                    <p class="lead">Total new stocks this month: <strong>@Model.SummaryResult</strong></p>
+                </div>
+            }
+            else if (Model.QueryType == "ListedForSale")
+            {
+                <div class="alert alert-primary">
+                    <p class="lead">Total quantity listed for sale: <strong>@Model.SummaryResult</strong></p>
+                </div>
+            }
+            else if (Model.QueryType == "TotalSold")
+            {
+                <div class="alert alert-primary">
+                    <p class="lead">Total quantity sold: <strong>@Model.SummaryResult</strong></p>
+                </div>
+            }
+            else if (Model.QueryType == "SalesPerBrand")
+            {
+                <h2 class="mb-3 text-primary">Sales per Brand</h2>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Brand Name</th>
+                            <th>Sold Bikes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var brandSales in Model.SalesPerBrandList)
+                        {
+                            <tr>
+                                <td>@brandSales.BrandName</td>
+                                <td>@brandSales.SoldBikes</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (Model.QueryType == "ListingsPBrand")
+            {
+                <h2 class="mb-3 text-primary">Listings per Brand</h2>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Brand Name</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var listing in Model.ListingsPerBrandList)
+                        {
+                            <tr>
+                                <td>@listing.BrandName</td>
+                                <td>@listing.Quantity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (Model.QueryType == "AvgSalesPBrand")
+            {
+                <h2 class="mb-3 text-primary">Average Sales per Brand</h2>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Brand Name</th>
+                            <th>Average Sale Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var avgSale in Model.AvgSalesPerBrandList)
+                        {
+                            <tr>
+                                <td>@avgSale.BrandName</td>
+                                <td>@avgSale.AverageSalePrice</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (Model.QueryType == "TotalsPBrandCategory")
+            {
+                <h2 class="mb-3 text-primary">Total Sales per Brand by Category</h2>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Brand Name</th>
+                            <th>Mountain</th>
+                            <th>Road</th>
+                            <th>Electric</th>
+                            <th>Children</th>
+                            <th>Comfort</th>
+                            <th>Cruisers</th>
+                            <th>Cyclocross</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var total in Model.TotalsPerBrandCategoryList)
+                        {
+                            <tr>
+                                <td>@total.BrandName</td>
+                                <td>@total.Mountain</td>
+                                <td>@total.Road</td>
+                                <td>@total.Electric</td>
+                                <td>@total.Children</td>
+                                <td>@total.Comfort</td>
+                                <td>@total.Cruisers</td>
+                                <td>@total.Cyclocross</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (Model.QueryType == "StockAtStores")
+            {
+                <h2 class="mb-3 text-primary">Stock at Stores</h2>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Store Name</th>
+                            <th>Total Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var storeStock in Model.StoreStockList)
+                        {
+                            <tr>
+                                <td>@storeStock.StoreName</td>
+                                <td>@storeStock.TotalQuantity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+</div>

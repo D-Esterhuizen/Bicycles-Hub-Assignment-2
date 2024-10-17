@@ -1,0 +1,187 @@
+﻿@using System.Linq
+@model IEnumerable<Assignment_2.Models.ViewModels.ProductViewModel>
+
+@{
+    ViewBag.Title = "Prices";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background for consistency */
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .search-bar {
+        background-color: #e9ecef; /* Light grey background */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow for card effect */
+        margin-bottom: 30px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 30px;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-img-top {
+        border-radius: 8px 8px 0 0;
+    }
+
+    .modal-content {
+        border-radius: 8px;
+    }
+
+    .product-image {
+        width: 80%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<h2>Prices</h2>
+
+<div class="container search-bar">
+    <form method="get" action="@Url.Action("ViewBikesByPriceRange", "Home")" class="row g-3">
+        <!-- Min Price Input -->
+        <div class="col-md-3">
+            <label for="minPrice" class="form-label">Min Price</label>
+            <input type="number" id="minPrice" name="minPrice" class="form-control" placeholder="Min Price" value="@Request.QueryString["minPrice"]" required />
+        </div>
+
+        <!-- Max Price Input -->
+        <div class="col-md-3">
+            <label for="maxPrice" class="form-label">Max Price</label>
+            <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="Max Price" value="@Request.QueryString["maxPrice"]" required />
+        </div>
+
+        <!-- Search Button -->
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+
+<!-- Display the bikes within the price range -->
+@if (Model != null && Model.Any())
+{
+    <div class="container">
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="data:image/jpeg;base64,@product.Base64Image" class="card-img-top" alt="Product Image">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.ProductName</h5>
+                            <p class="card-text">
+                                <strong>Brand:</strong> @product.BrandName<br />
+                                <strong>Price:</strong> @product.FormattedPrice
+                            </p>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal"
+                                    data-productid="@product.ProductId"
+                                    data-productname="@product.ProductName"
+                                    data-productprice="@product.FormattedPrice"
+                                    data-productbrand="@product.BrandName"
+                                    data-productcategory="@product.CategoryName"
+                                    data-productimage="@product.Base64Image">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-center mt-4">No bikes found within the specified price range.</p>
+}
+
+<!-- Product Details Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img id="modalProductImage" class="product-image" src="" alt="Product Image" />
+                </div>
+                <ul class="product-details-list">
+                    <li><strong>Product Name:</strong> <span id="modalProductName"></span></li>
+                    <li><strong>Price:</strong> <span id="modalProductPrice"></span></li>
+                    <li><strong>Brand:</strong> <span id="modalProductBrand"></span></li>
+                    <li><strong>Category:</strong> <span id="modalProductCategory"></span></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="@Url.Action("AddToOrder", "Home")">
+                    <input type="hidden" name="productId" id="hiddenProductId" />
+                    <button type="submit" class="btn btn-primary">Add to Order</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Script -->
+@section scripts {
+    <script>
+        var productModal = document.getElementById('productModal');
+        productModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var productId = button.getAttribute('data-productid');
+            var productName = button.getAttribute('data-productname');
+            var productPrice = button.getAttribute('data-productprice');
+            var productBrand = button.getAttribute('data-productbrand');
+            var productCategory = button.getAttribute('data-productcategory');
+            var productImage = button.getAttribute('data-productimage');
+
+            var modalProductName = document.getElementById('modalProductName');
+            var modalProductPrice = document.getElementById('modalProductPrice');
+            var modalProductBrand = document.getElementById('modalProductBrand');
+            var modalProductCategory = document.getElementById('modalProductCategory');
+            var modalProductImage = document.getElementById('modalProductImage');
+            var hiddenProductId = document.getElementById('hiddenProductId');
+
+            modalProductName.textContent = productName;
+            modalProductPrice.textContent = productPrice;
+            modalProductBrand.textContent = productBrand;
+            modalProductCategory.textContent = productCategory;
+            modalProductImage.src = 'data:image/jpeg;base64,' + productImage;
+            hiddenProductId.value = productId;
+        });
+    </script>
+}

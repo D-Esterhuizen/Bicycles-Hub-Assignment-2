@@ -1,0 +1,248 @@
+﻿
+@model List<Assignment_2.Models.ViewModels.ProductViewModel>
+@{
+    ViewBag.Title = "Home Page";
+}
+<hr />
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background for contrast */
+        font-family: Arial, sans-serif;
+    }
+
+    .carousel-image {
+        height: 400px; /* Set a fixed height */
+        object-fit: cover; /* Cover ensures the image covers the area without distortion */
+    }
+
+    .list-item-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .list-item-container svg {
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: left 1.0s ease;
+        }
+
+        .list-item-container:hover svg {
+            left: 80%;
+        }
+
+    .bg-primary {
+        background-color: #007bff; /* Primary color */
+    }
+
+    .bg-secondary {
+        background-color: #6c757d; /* Secondary color */
+    }
+
+    .text-white {
+        color: #fff;
+    }
+
+    .nav-link1 {
+        color: dodgerblue; /* Nav links color */
+        font-weight: bold; /* Make nav links bold */
+        transition: color 0.3s; /* Smooth color transition */
+    }
+
+        .nav-link1:hover {
+            color: #ffc107;
+            text-decoration: underline /* Change color on hover */
+        }
+
+    .list-group-item {
+        transition: background-color 0.3s; /* Smooth transition for background */
+    }
+
+        .list-group-item:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Lighten on hover */
+        }
+
+    h3 {
+        margin-top: 0; /* Remove top margin */
+        font-family: 'Lato', sans-serif; /* Use Lato font */
+    }
+
+    .carousel-inner img {
+        height: 600px; /* Set carousel image height */
+        object-fit: cover; /* Ensure images cover the area without distortion */
+    }
+
+    .text-center ul {
+        list-style-type: none; /* Remove bullet points */
+        padding: 0; /* Remove padding */
+    }
+
+    .text-center li {
+        font-family: 'Lato', sans-serif; /* Use Lato font */
+        font-size: 30px; /* Font size */
+        margin: 5px 0; /* Space between lines */
+    }
+
+    .bg-secondary p {
+        font-size: 20px; /* Slightly smaller text for emphasis */
+        margin: 0; /* Remove margin */
+    }
+</style>
+
+@{
+    string svgIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='currentColor' class='bi bi-bicycle' viewBox='0 0 16 16'>" +
+                     "<path d='M4 4.5a.5.5 0 0 1 .5-.5H6a.5.5 0 0 1 0 1v.5h4.14l.386-1.158A.5.5 0 0 1 11 4h1a.5.5 0 0 1 0 1h-.64l-.311.935.807 1.29a3 3 0 1 1-.848.53l-.508-.812-2.076 3.322A.5.5 0 0 1 8 10.5H5.959a3 3 0 1 1-1.815-3.274L5 5.856V5h-.5a.5.5 0 0 1-.5-.5m1.5 2.443-.508.814c.5.444.85 1.054.967 1.743h1.139zM8 9.057 9.598 6.5H6.402zM4.937 9.5a2 2 0 0 0-.487-.877l-.548.877zM3.603 8.092A2 2 0 1 0 4.937 10.5H3a.5.5 0 0 1-.424-.765zm7.947.53a2 2 0 1 0 .848-.53l1.026 1.643a.5.5 0 1 1-.848.53z'/></svg>";
+}
+
+<div class="container">
+    <div class="collapse d-flex justify-content-center">
+        <ul class="nav d-flex list-group-horizontal-md">
+            <li class="nav-item mx-2">
+                @Html.ActionLink("Buyers", "Buyers", "Home", new { @class = "nav-link1" })
+            </li>
+            <li class="nav-item mx-2">
+                @Html.ActionLink("Sellers", "Sellers", "Home", new { @class = "nav-link1" })
+            </li>
+            <li class="nav-item mx-2">
+                @Html.ActionLink("Bikes", "Bikes", "Home", new { @class = "nav-link1" })
+            </li>
+            <li class="nav-item mx-2">
+                @Html.ActionLink("Stores", "BikeStores", "Home", new { @class = "nav-link1" })
+            </li>
+            <li class="nav-item mx-2">
+                @Html.ActionLink("Price", "ViewBikesByPriceRange", "Home", new { @class = "nav-link1" })
+            </li>
+        </ul>
+    </div>
+</div>
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <div class="bg-primary text-white p-3">
+                <h3>Summaries</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-1 list-group-item list-item-container">
+                        <hr />
+                        @Html.ActionLink("New Stocks", "NewStocks", "Home", null, new { @class = "text-white d-flex align-items-center" })
+                        @Html.Raw(svgIcon)
+                        <hr />
+                    </li>
+                    <li class="mb-1 list-group-item list-item-container">
+                        <hr />
+                        @Html.ActionLink("Listed for Sale", "ListedForSale", "Home", null, new { @class = "text-white d-flex align-items-center" })
+                        @Html.Raw(svgIcon)
+                        <hr />
+                    </li>
+                    <li class="mb-1 list-group-item list-item-container">
+                        <hr />
+                        @Html.ActionLink("Total Sold", "TotalSold", "Home", null, new { @class = "text-white d-flex align-items-center" })
+                        @Html.Raw(svgIcon)
+                        <hr />
+                    </li>
+                    <li class="mb-1 list-group-item list-item-container">
+                        <hr />
+                        @Html.ActionLink("Sales per Brand", "SalesPerBrand", "Home", null, new { @class = "text-white d-flex align-items-center" })
+                        @Html.Raw(svgIcon)
+                        <hr />
+                    </li>
+                    <li class="mb-1 list-group-item list-item-container">
+                        <hr />
+                        @Html.ActionLink("Listings per Brand", "ListingsPBrand", "Home", null, new { @class = "text-white d-flex align-items-center" })
+                        @Html.Raw(svgIcon)
+                        <hr />
+                    </li>
+                    <li class="mb-1 list-group-item list-item-container">
+                        <hr />
+                        @Html.ActionLink("Average Sales per Brand", "AvgSalesPBrand", "Home", null, new { @class = "text-white d-flex align-items-center" })
+                        @Html.Raw(svgIcon)
+                        <hr />
+                    </li>
+                    <li class="mb-1 list-group-item list-item-container">
+                        <hr />
+                        @Html.ActionLink("Totals per Brand and Category", "TotalsPBrandCategory", "Home", null, new { @class = "text-white d-flex align-items-center" })
+                        @Html.Raw(svgIcon)
+                        <hr />
+                    </li>
+
+                    <li class="mb-1 list-group-item list-item-container">
+                        <hr />
+                        @Html.ActionLink("Totals per store", "StockAtStores", "Home", null, new { @class = "text-white d-flex align-items-center" })
+                        @Html.Raw(svgIcon)
+                        <hr />
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Middle Column with Carousel -->
+        <div class="col-8">
+            <div class="bg-secondary text-white p-3 mb-4">
+                <!-- Carousel -->
+                <div id="carouselExampleControls" class="carousel slide" data-bs-interval="2000">
+                    <div class="carousel-inner">
+                        @foreach (var img in new[] { "Carousel 1.jpg", "Carousel 2.jpg", "Carousel 3.jpg", "Carousel 4.jpg" })
+                        {
+                            <div class="carousel-item @(img == "Carousel 1.jpg" ? "active" : "")">
+                                <img src="~/Images/@img" class="d-block w-100" />
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <!-- End of Carousel -->
+
+            </div>
+
+            <div class="bg-secondary p-3 text-center mb-4">
+                <ul class="text-center">
+                    <li>We Help your Dreams come true!!</li>
+                    <li>We help you sell, and buy!!</li>
+                    <li>We Connect you to the global bicycle market!!</li>
+                    <li>We are... <div style="font-family: 'Brush Script MT', cursive; font-size: 80px">Bicycles-Hub</div></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Outer Right Column -->
+        <div class="col-2">
+            <div class="bg-primary text-white p-3 mb-4">
+                <h3 class="mb-2">Bike Brands</h3>
+                <ul class="list-unstyled">
+                    @foreach (var brand in new[] { "Haro", "Heller", "Trek", "Pure Cycles", "Ritchey", "Sun Bicycles", "Surly", "Strider" })
+                    {
+                        <li class="list-group-item list-item-container">
+                            <hr />
+                            @Html.ActionLink(brand, "BikeDetails", "Home", new { category = brand }, new { @class = "text-white d-flex align-items-center" })
+                            @Html.Raw(svgIcon)
+                            <hr />
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div>
+                <div class="bg-primary text-white p-3">
+                    <h3 class="mb-2">Our Shops Globally</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-1">United States of America</li>
+                        <li class="mb-1">United Kingdom</li>
+                        <li class="mb-1">South Africa</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

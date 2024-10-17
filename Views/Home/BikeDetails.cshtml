@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Assignment_2.Models.ViewModels.ProductViewModel>
+
+@{
+    ViewBag.Title = "Bike Details";
+}
+
+
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm" style="height: 450px;">
+                
+                <img class="card-img-top" src="data:image/png;base64,@product.Base64Image" alt="@product.ProductName" style="height: 300px; object-fit: cover;" /> 
+                <div class="card-body">
+                    <h5 class="card-title">@product.ProductName</h5> 
+                    
+                    <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#productModal"
+                            data-productid="@product.ProductId"
+                            data-productname="@product.ProductName"
+                            data-productprice="@String.Format("{0:C}", product.ListPrice)"
+                            data-productbrand="@product.BrandName"
+                            data-productcategory="@product.CategoryName"
+                            data-productimage="@product.Base64Image">
+                        View Details
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 1000px;">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img id="modalProductImage" class="product-image" src="" alt="Product Image" style="width: 80%; height: auto;" />
+                </div>
+                <ul class="product-details-list">
+                    <li><strong>Product Name: </strong> <span id="modalProductName"></span></li>
+                    <li><strong>List Price: </strong> <span id="modalProductPrice"></span></li>
+                    <li><strong>Brand: </strong> <span id="modalProductBrand"></span></li>
+                    <li><strong>Category: </strong> <span id="modalProductCategory"></span></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        // Populate modal with clicked product details
+        var productModal = document.getElementById('productModal');
+        productModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var productName = button.getAttribute('data-productname');
+            var productPrice = button.getAttribute('data-productprice');
+            var productBrand = button.getAttribute('data-productbrand');
+            var productCategory = button.getAttribute('data-productcategory');
+            var productImage = button.getAttribute('data-productimage');
+            var productId = button.getAttribute('data-productid'); // Moved inside the modal listener
+
+            // Update the modal's content
+            var modalProductName = productModal.querySelector('#modalProductName');
+            var modalProductPrice = productModal.querySelector('#modalProductPrice');
+            var modalProductBrand = productModal.querySelector('#modalProductBrand');
+            var modalProductCategory = productModal.querySelector('#modalProductCategory');
+            var modalProductImage = productModal.querySelector('#modalProductImage');
+            var hiddenProductId = productModal.querySelector('#hiddenProductId'); // Find the hidden input field
+
+            modalProductName.textContent = productName;
+            modalProductPrice.textContent = productPrice;
+            modalProductBrand.textContent = productBrand;
+            modalProductCategory.textContent = productCategory;
+            modalProductImage.src = 'data:image/png;base64,' + productImage;
+            hiddenProductId.value = productId; // Set the productId in the hidden field
+        });
+
+    </script>
+}

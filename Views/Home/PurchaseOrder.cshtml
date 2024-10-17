@@ -1,0 +1,90 @@
+﻿@model List<Assignment_2.Models.ViewModels.PurchaseOrderViewModel>
+
+<style>
+    .content-section {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .product-list {
+        margin: 0 auto;
+        max-width: 900px;
+    }
+
+    .listing-box {
+        margin-bottom: 20px;
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card {
+        height: 100%;
+        margin-bottom: 30px;
+    }
+</style>
+
+<h2 class="text-center">Cart</h2>
+
+<div class="container product-list">
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var PurchaseOrder in Model)
+            {
+                <div class="col-md-6">
+                    <div class="card listing-box border rounded p-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>Product Name:</strong> @PurchaseOrder.ProductName</h5>
+                            <p class="card-text"><strong>Price:</strong> @PurchaseOrder.FormattedPrice</p>
+                            <p class="card-text"><strong>Brand:</strong> @PurchaseOrder.BrandName</p>
+                            <p class="card-text"><strong>Category:</strong> @PurchaseOrder.CategoryName</p>
+                            <img src="data:image/png;base64,@PurchaseOrder.Base64Image" alt="Product Image" style="width: 100%; height: auto;" />
+
+                            <div class="btn-info">
+                                @using (Html.BeginForm("RemoveFromPurchaseOrder", "Home", FormMethod.Post))
+                                {
+                                    @Html.Hidden("staff_id", PurchaseOrder.staff_id)
+                                    @Html.Hidden("productID", PurchaseOrder.productID)
+                                    <button type="submit" class="btn btn-primary w-100" onclick="return confirm('Are you certain you want to remove this from your cart?');">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                        </svg>
+                                        Remove from Cart
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        decimal totalCost = Model.Sum(p => p.ListPrice); 
+        <div class="text-end">
+            <h4>Total Cost: <strong>@string.Format("R{0:0.00}", totalCost)</strong></h4>
+        </div>
+
+        // Complete Order Button
+<div class="text-end mt-3">
+    @using (Html.BeginForm("CompleteOrder", "Home", FormMethod.Post))
+    {
+        @Html.Hidden("staff_id", Model.FirstOrDefault()?.staff_id ?? 0) <!-- Safely get staff_id -->
+        <button type="submit" class="btn btn-primary">
+            Complete Order
+        </button>
+
+
+
+
+
+    }
+</div>
+    }
+    else
+    {
+        <p class="text-center">Your cart is empty, get shopping!</p>
+    }
+</div>

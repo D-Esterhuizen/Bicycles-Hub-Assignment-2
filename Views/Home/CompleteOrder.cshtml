@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Complete Order";
+}
+
+<h2 class="text-center">Complete Your Order</h2>
+
+<div class="container mt-5">
+    @using (Html.BeginForm("CompleteOrder", "Home", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Credit Card Information</h4>
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" class="form-control" id="cardNumber" name="CardNumber" placeholder="Enter your card number" required />
+                </div>
+                <div class="form-group">
+                    <label for="cardName">Cardholder Name</label>
+                    <input type="text" class="form-control" id="cardName" name="CardholderName" placeholder="Enter the name on the card" required />
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="expiryDate">Expiry Date</label>
+                        <input type="month" class="form-control" id="expiryDate" name="ExpiryDate" required />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="cvv">CVV</label>
+                        <input type="text" class="form-control" id="cvv" name="CVV" placeholder="CVV" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h4>Shipping Address</h4>
+                <div class="form-group">
+                    <label for="addressLine1">Address Line 1</label>
+                    <input type="text" class="form-control" id="addressLine1" name="AddressLine1" placeholder="Enter your address" required />
+                </div>
+                <div class="form-group">
+                    <label for="addressLine2">Address Line 2 (optional)</label>
+                    <input type="text" class="form-control" id="addressLine2" name="AddressLine2" placeholder="Apartment, suite, etc." />
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="City" required />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" id="state" name="State" required />
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="zip">Zip Code</label>
+                        <input type="text" class="form-control" id="zip" name="ZipCode" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <select class="form-control" id="country" name="Country" required>
+                        <option value="">Choose...</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="USA">USA</option>
+                        <option value="UK">UK</option>
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary">Complete Order</button>
+        </div>
+    }
+</div>

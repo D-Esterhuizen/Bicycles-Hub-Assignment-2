@@ -1,0 +1,55 @@
+﻿@model Assignment_2.Models.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "Add Listing";
+}
+
+<div class="container">
+    <h2>Add a New Listing</h2>
+    @using (Html.BeginForm("DoAddListing", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            <label for="ProductName" class="control-label">Bike Name</label>
+            @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control", @placeholder = "Enter bike name", required = "required" })
+        </div>
+
+        <div class="form-group">
+            <label for="ModelYear" class="control-label">Model Year</label>
+            @Html.TextBoxFor(model => model.ModelYear, new { @class = "form-control", @placeholder = "Enter model year", required = "required", @type = "number" })
+        </div>
+
+        <div class="form-group">
+            <label for="ListPrice" class="control-label">Listing Price</label>
+            @Html.TextBoxFor(model => model.ListPrice, new { @class = "form-control", @placeholder = "Enter listing price", required = "required", @type = "number", step = "0.1" })
+        </div>
+        <div class="form-group">
+            <label for="BrandId" class="control-label">Select Brand</label>
+            @Html.DropDownListFor(model => model.BrandId, Model.Brands, "Select a Brand", new { @class = "form-control", required = "required" })
+        </div>
+
+        <div class="form-group">
+            <label for="CategoryId" class="control-label">Select Category</label>
+            @Html.DropDownListFor(model => model.CategoryId, Model.Categories, "Select a Category", new { @class = "form-control", required = "required" })
+        </div>
+        <div class="form-group">
+            <label for="ImageUpload" class="control-label">Upload Image</label>
+            <input type="file" id="imageUpload" accept="image/*" class="form-control" onchange="convertImageToBase64()" required ="required"/>
+            <input type="hidden" name="Base64Image" id="Base64Image" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Add Listing</button>
+        </div>
+    }
+</div>
+<script>
+    function convertImageToBase64() {
+        var file = document.getElementById('imageUpload').files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            document.getElementById('Base64Image').value = reader.result.split(',')[1];
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
